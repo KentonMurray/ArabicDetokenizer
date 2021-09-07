@@ -1,0 +1,28 @@
+#!/bin/bash
+#$ -q gpu.q@@v100
+#$ -l mem_free=12G,h_rt=200:00:00,gpu=4
+#$ -M kenton@jhu.edu
+#$ -m bea
+#$ -cwd
+
+###Code to run
+#conda init bash
+source ~/.bashrc
+#conda activate /home/hltcoe/kmurray/code/pytorch
+conda activate pytorch1.4
+#conda activate /home/hltcoe/bthompson/anaconda3/envs/bigdata
+#source activate /home/hltcoe/bthompson/anaconda3/envs/bigdata
+
+#FAIRSEQ=/home/hltcoe/kmurray/code/fairseq/2020-15-01/
+FAIRSEQ=/home/hltcoe/hkhayrallah/fairseq-para-b_dist_multi_pp-orig
+
+module load cuda10.1/toolkit
+echo $CUDA_VISIBLE_DEVICES
+
+nvidia-smi
+hostname
+
+
+#TODO: Note that I got rid of share all embeddings
+#TODO: Batch size was too big
+python $FAIRSEQ/train.py en-ar-notok-1k-data-bin/  --arch transformer_wmt_en_de --optimizer adam --adam-betas '(0.9, 0.98)' --clip-norm 1.0 --lr 0.001 --lr-scheduler inverse_sqrt --warmup-updates 4000 --warmup-init-lr 1e-07 --dropout 0.1 --weight-decay 0.0 --criterion label_smoothed_cross_entropy --label-smoothing 0.1 --max-tokens 4096 --update-freq 10 --attention-dropout 0.1 --activation-dropout 0.1 --max-epoch 15 --save-dir en-ar-notok-1k --no-epoch-checkpoints #--distributed-world-size 4

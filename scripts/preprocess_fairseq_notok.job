@@ -1,0 +1,23 @@
+#!/bin/bash
+#$ -q gpu.q
+#$ -l mem_free=12G,h_rt=48:00:00,gpu=1
+#$ -M kenton@jhu.edu
+#$ -m bea
+#$ -cwd
+
+###Code to run
+source ~/.bashrc
+conda activate pytorch1.4
+
+#TEXT=/exp/kmurray/data/ar-en/brian-clean5/combined/bpe_notok/
+TEXT=/exp/kmurray/data/ar-en/brian-clean5/combined/bpe/denorm/
+FAIRSEQ=/home/hltcoe/hkhayrallah/fairseq-para-b_dist_multi_pp-orig
+module load cuda10.1/toolkit
+echo $CUDA_VISIBLE_DEVICES
+
+nvidia-smi
+hostname
+
+#python $FAIRSEQ/preprocess.py --source-lang ar --target-lang en  --trainpref $TEXT/train.1k --validpref $TEXT/valid.1k --testpref $TEXT/test.1k --destdir ar-en-notok-1k-data-bin
+python $FAIRSEQ/preprocess.py --source-lang en --target-lang ar  --trainpref $TEXT/train.1k --validpref $TEXT/valid.1k --testpref $TEXT/test.1k --destdir en-ar-notok-1k-data-bin
+
