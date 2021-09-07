@@ -9,7 +9,7 @@ Please cite this paper for reference:
 
 ```bibtex
 @inproceedings{yarmohammadi-etal-2021-everything,
-    title = "Everything Is All It Takes: A Multipronged Strategy for Zero-ShotCross-Lingual Information Extraction",
+    title = "Everything Is All It Takes: A Multipronged Strategy for Zero-Shot Cross-Lingual Information Extraction",
     author = "Yarmohammadi, Mahsa  and
       Wu, Shijie  and
       Marone, Marc  and
